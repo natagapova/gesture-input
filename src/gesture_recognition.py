@@ -1,10 +1,11 @@
 import math
+import numpy as np
 
 def calculate_distance(point1, point2):
     """Calculate the Euclidean distance between two points."""
     return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
-def detect_pinch(landmarks):
+def detect_pinch(normalized_landmarks):
     """
     Detect if all fingers are pinched (connected to the thumb).
     Args:
@@ -13,9 +14,12 @@ def detect_pinch(landmarks):
     Returns:
         bool: True if all fingers are pinched together, False otherwise.
     """
-    # Thumb tip and fingertips
-    thumb_tip = landmarks[4]  # Thumb tip
-    finger_tips = [landmarks[8], landmarks[12], landmarks[16], landmarks[20]]  # Index, middle, ring, pinky tips
+    # Target fingers
+    thumb_tip = normalized_landmarks[4]
+    
+    index_finger_tip = normalized_landmarks[8]
+    middle_finger_tip = normalized_landmarks[12]
+    finger_tips = [index_finger_tip, middle_finger_tip]
 
     # Threshold distance for "pinch"
     threshold = 0.15  # Adjust based on testing (5% of normalized space)
