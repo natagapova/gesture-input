@@ -6,9 +6,9 @@ from math_utils import ease_out_bezier, clamp
 screen_width, screen_height = pyautogui.size()
 
 # Adding a margin on each side of the screen to make edges of the screen more accessible
-screen_margins = 0.2
-target_width = screen_width * (1 + screen_margins)
-target_height = screen_height * (1 + screen_margins)
+screen_margin = 0.2
+target_width = screen_width * (1 + screen_margin * 2)
+target_height = screen_height * (1 + screen_margin * 2)
 
 # Constants for smoothing
 jitter_threshold = 22 # px
@@ -42,8 +42,8 @@ def update_cursor_target(normalized_landmarks):
     average_tip = np.mean([thumb_tip, index_finger_tip, middle_finger_tip], axis=0)
     
     # Map index finger tip position to target dimensions
-    cursor_x = int(average_tip[0] * target_width)
-    cursor_y = int(average_tip[1] * target_height)
+    cursor_x = int(average_tip[0] * target_width - screen_margin * screen_width)
+    cursor_y = int(average_tip[1] * target_height - screen_margin * screen_height)
     
     # Clamp cursor position to screen boundaries
     cursor_x = max(0, min(cursor_x, screen_width - 1))
@@ -88,5 +88,13 @@ def move_to_target():
     movement_clock = time.time() * 1000
 
 
+click_cooldown = 300 # ms
+last_click_time = 0
+
 def perform_click():
-    pyautogui.click()
+    global last_click_time
+    
+    if time.time() * 1000 - last_click_time < click_cooldown: return
+    
+    pyautogui.click(button='left')
+    last_click_time = time.time() * 1000

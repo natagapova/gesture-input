@@ -13,8 +13,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
 from hand_tracking import HandTracker
-from gesture_recognition import detect_pinch
-from os_actions import update_cursor_target, os_actions_handler
+from gesture_recognition import detect_pinch, detect_finger_ready_for_click, detect_finger_click
+from os_actions import update_cursor_target, os_actions_handler, perform_click
+
 
 def main():
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) # Use AVFoundation for macOS and DSHOW for Windows
@@ -42,13 +43,19 @@ def main():
                     # Check if all fingers are pinched together
                     if detect_pinch(normalized_landmarks):
                         update_cursor_target(normalized_landmarks)
-
+                        
+                    detect_finger_ready_for_click(normalized_landmarks)
+                    
+                    if detect_finger_click(normalized_landmarks):
+                        perform_click()
+                        
                     # Draw hand landmarks
                     mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
         
             cv2.imshow("Hand Gesture Control", frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+
     except KeyboardInterrupt:
         print("Main thread interrupted")
         
