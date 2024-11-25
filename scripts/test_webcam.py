@@ -1,7 +1,7 @@
 import cv2
 
 def main():
-    cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)  # Use AVFoundation for macOS
+    cap = cv2.VideoCapture(0)  # Use AVFoundation for macOS and DSHOW for Windows
     
     if not cap.isOpened():
         print("Error: Could not open webcam.")

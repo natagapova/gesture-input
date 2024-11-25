@@ -1,5 +1,5 @@
 import unittest
-from scripts.gesture_recognition import detect_pinch
+from gesture_recognition import detect_pinch
 
 class MockLandmark:
     def __init__(self, x, y):

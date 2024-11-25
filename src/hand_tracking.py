@@ -4,7 +4,7 @@ import cv2
 class HandTracker:
     def __init__(self):
         self.mp_hands = mp.solutions.hands
-        self.hands = self.mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7)
+        self.hands = self.mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7 , model_complexity=0)
         self.mp_draw = mp.solutions.drawing_utils
 
     def process_frame(self, frame):

@@ -3,30 +3,26 @@ import os
 import pyautogui
 import cv2
 import mediapipe as mp
-import numpy as np
 from collections import deque
+import time
 
 # Initialize MediaPipe drawing and hand detection modules
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
-
-# Get screen dimensions
-screen_width, screen_height = pyautogui.size()
-
-# Initialize position history for smoothing
-position_history = deque(maxlen=5)  # Stores the last 5 cursor positions
 
 # Add project root to the system path for imports
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
 from hand_tracking import HandTracker
-from scripts.gesture_recognition import detect_pinch
-from gesture_to_action import move_mouse, perform_click
+from gesture_recognition import detect_pinch
+from os_actions import move_mouse, perform_click
 
 def main():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) # Use AVFoundation for macOS and DSHOW for Windows
     hand_tracker = HandTracker()
+    
+    t = time.time()
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -44,23 +40,16 @@ def main():
 
                 # Check if all fingers are pinched together
                 if detect_pinch(normalized_landmarks):
-                    # Map index finger tip position to screen dimensions
-                    index_finger_tip = normalized_landmarks[8]
-                    cursor_x = int(index_finger_tip[0] * screen_width)
-                    cursor_y = int(index_finger_tip[1] * screen_height)
-
-                    # Add the position to history
-                    position_history.append((cursor_x, cursor_y))
-
-                    # Calculate smoothed position using the moving average
-                    smoothed_position = np.mean(position_history, axis=0).astype(int)
-
-                    # Move the cursor to the smoothed position
-                    pyautogui.moveTo(smoothed_position[0], smoothed_position[1])
+                    move_mouse(normalized_landmarks)
 
                 # Draw hand landmarks
                 mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
+        # print fps
+        fps = 1 / (time.time() - t)
+        print(f"FPS: {fps:.2f}")
+        t = time.time()
+        
         cv2.imshow("Hand Gesture Control", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
