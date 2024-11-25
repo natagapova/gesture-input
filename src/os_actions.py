@@ -35,11 +35,11 @@ def update_cursor_target(normalized_landmarks):
     
     # Landmark indexes can be found here: https://mediapipe.readthedocs.io/en/latest/solutions/hands.html#hand-landmark-model
     thumb_tip = normalized_landmarks[4]
-    index_finger_tip = normalized_landmarks[8]
+    # index_finger_tip = normalized_landmarks[8] Note: not using index finger tip for simplicity because it is used to detect click
     middle_finger_tip = normalized_landmarks[12]
     
     # Average over target fingers
-    average_tip = np.mean([thumb_tip, index_finger_tip, middle_finger_tip], axis=0)
+    average_tip = np.mean([thumb_tip, middle_finger_tip], axis=0)
     
     # Map index finger tip position to target dimensions
     cursor_x = int(average_tip[0] * target_width - screen_margin * screen_width)

@@ -97,7 +97,7 @@ def detect_finger_click(normalized_landmarks):
     click_distance = np.linalg.norm(np.array(index_tip) - np.array(base_fingers_average))
 
     # Threshold for "click" (adjust based on camera setup)
-    detected = click_distance < 0.10  # 3% of normalized distance
+    detected = click_distance < 0.10
     
     if detected:
         match_lookback = [t for t in latest_ready_for_click_times if (time.time() - t) * 1000 < ready_for_click_lookback]
