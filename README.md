@@ -2,49 +2,14 @@
 
 Control your mouse cursor with hand gestures captured by a webcam. The project tracks hand position in real time using [MediaPipe Hands](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker), recognizes gestures, and translates them into cursor movement and clicks via `pyautogui`.
 
-<style>
-  .readme-hero {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px 32px;
-    align-items: flex-start;
-    width: 100%;
-    margin: 1em 0;
-  }
-  .readme-hero__gif {
-    flex: 0 1 360px;
-    max-width: 100%;
-  }
-  .readme-hero__gif img {
-    width: 100%;
-    max-width: 360px;
-    display: block;
-    border-radius: 6px;
-  }
-  .readme-hero__features {
-    flex: 1 1 280px;
-    min-width: 0;
-    max-width: 100%;
-  }
-  .readme-hero__features h2 {
-    margin-top: 0;
-  }
-</style>
+<img src="media/video-gesture-input.gif" alt="Hand gesture mouse control demo" width="480">
 
-<div class="readme-hero">
-  <div class="readme-hero__gif">
-    <img src="media/video-gesture-input.gif" alt="Hand gesture mouse control demo" width="360">
-  </div>
-  <div class="readme-hero__features">
-    <h2>Features</h2>
-    <ul>
-      <li><b>Cursor movement</b> — smooth on-screen motion with interpolation and jitter reduction</li>
-      <li><b>Left click</b> — two-step "aim → tap" gesture</li>
-      <li><b>Real-time tracking</b> — hand skeleton overlaid on the live camera feed</li>
-      <li><b>Mirrored view</b> — the camera feed is flipped horizontally so movements feel natural</li>
-    </ul>
-  </div>
-</div>
+## Features
+
+- **Cursor movement** — smooth on-screen motion with interpolation and jitter reduction
+- **Left click** — two-step "aim → tap" gesture
+- **Real-time tracking** — hand skeleton overlaid on the live camera feed
+- **Mirrored view** — the camera feed is flipped horizontally so movements feel natural
 
 ## Gestures
 
